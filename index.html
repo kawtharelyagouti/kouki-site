@@ -5,213 +5,283 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KOUKI - الطباخة كوثر</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+    <!-- الخط -->
+    <link href="https://fonts.googleapis.com/css2?family=Amiri&display=swap" rel="stylesheet">
 
     <style>
         body {
             font-family: 'Amiri', serif;
             margin: 0;
-            padding: 0;
-            background: linear-gradient(120deg, #ffe5d1, #ffcbb3, #ffb396);
-            background-size: 400% 400%;
-            animation: gradientMove 18s ease infinite;
-            color: #3a2d2d;
+            padding: 50px 10px;
+            text-align: center;
+            min-height: 100vh;
             overflow-x: hidden;
+            color: #3a2d2d;
+            background: linear-gradient(270deg, #ffe9d6, #ffd4b8, #ffbfa0);
+            background-size: 400% 400%;
+            animation: bgMove 20s infinite;
         }
-        @keyframes gradientMove {
+
+        @keyframes bgMove {
             0% {background-position: 0% 50%;}
             50% {background-position: 100% 50%;}
             100% {background-position: 0% 50%;}
         }
 
-        /* خلفية فيديو احترافية */
+        /* ===== فيديو الخلفية ===== */
         #bg-video {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+            right: 0;
+            bottom: 0;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
             z-index: -2;
-            filter: brightness(60%) blur(1px);
+            object-fit: cover;
+            opacity: 0.7;
         }
 
-        /* طبقة شفافة فوق الفيديو */
-        .overlay {
+        /* fallback image for mobile */
+        @media (max-width: 768px) {
+            #bg-video { display: none; }
+            body { 
+                background: url('https://i.imgur.com/YKY28eT.png') center/cover no-repeat;
+            }
+        }
+
+        /* ===== النجوم ===== */
+        .stars {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.25);
+            width: 200%;
+            height: 200%;
+            background: url("https://i.imgur.com/YKY28eT.png") repeat;
+            animation: starsMove 120s linear infinite;
+            opacity: 0.3;
+            pointer-events: none;
             z-index: -1;
+        }
+        @keyframes starsMove {
+            0% { transform: translate(0,0); }
+            100% { transform: translate(-800px, -800px); }
+        }
+
+        /* ===== الطباخة المتحركة ===== */
+        .animal {
+            position: absolute;
+            width: 110px;
+            height: 160px;
+            background: url('https://tse2.mm.bing.net/th/id/OIP.r8j95DKlcOOqQVbUZY0HhQHaHa?pid=Api&P=0&h=180') no-repeat center;
+            background-size: contain;
+            animation: chefJump 0.6s infinite alternate,
+                       walk 22s infinite linear;
+        }
+        @keyframes chefJump {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-10px); }
+        }
+        @keyframes walk {
+            0% { left: 5%; top: 70%; }
+            25% { left: 80%; top: 70%; }
+            50% { left: 80%; top: 25%; }
+            75% { left: 5%; top: 25%; }
+            100% { left: 5%; top: 70%; }
         }
 
         h1 {
-            font-size: 55px;
-            color: #ffeadd;
-            margin-top: 40px;
-            text-align: center;
-            text-shadow: 2px 2px 15px rgba(0,0,0,0.9);
-            animation: fadeDown 1.5s ease;
+            font-size: 50px;
+            color: #6b2b0c;
+            margin-top: 10px;
+            animation: fadeIn 2s forwards;
         }
-        @keyframes fadeDown {
-            from {opacity: 0; transform: translateY(-30px);}    
-            to {opacity: 1; transform: translateY(0);}  
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px);}
+            to   { opacity: 1; transform: translateY(0);}
         }
 
         .big-name {
-            text-align: center;
-            font-size: 70px;
-            color: #ff70b9;
-            margin: 10px 0;
-            font-weight: bold;
-            text-shadow: 2px 2px 20px rgba(0,0,0,0.6);
-            animation: popUp 1.8s ease;
+            font-size: 80px;
+            color: #ff69b4;
+            margin: 20px 0;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+            animation: fadeInBig 2s forwards;
+            z-index: 2;
+            position: relative;
         }
-        @keyframes popUp {
-            0% {opacity: 0; transform: scale(0.6);}  
-            100% {opacity: 1; transform: scale(1);}  
+        @keyframes fadeInBig {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
         }
 
         .description {
             font-size: 22px;
-            max-width: 900px;
-            text-align: center;
-            margin: 20px auto;
-            padding: 20px;
-            background: rgba(255,255,255,0.3);
-            backdrop-filter: blur(6px);
-            border-radius: 15px;
+            max-width: 850px;
+            margin: 10px auto;
             line-height: 2;
-            color: #2c1f1f;
+            animation: fadeUp 2.5s forwards;
+            color: #000;
             font-weight: bold;
+            text-shadow: 1px 1px 5px rgba(255,255,255,0.5);
+        }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to   { opacity: 1; transform: translateY(0); }
         }
 
         .phone {
-            text-align: center;
             font-size: 28px;
-            margin-top: 15px;
-            background: white;
-            padding: 12px 25px;
+            background: #fff;
+            color: #000;
             display: inline-block;
-            border-radius: 12px;
+            padding: 12px 25px;
             border: 2px solid #000;
+            border-radius: 10px;
+            margin-top: 10px;
+            animation: fadeUp 3s forwards;
         }
         .phone span {
-            color: #d40000;
+            color: #bf0000;
+            font-size: 32px;
             font-weight: bold;
-            font-size: 30px;
         }
-
-        .center {text-align: center;}
 
         .whatsapp-btn {
             display: inline-block;
-            margin-top: 15px;
+            margin-top: 10px;
             padding: 12px 25px;
             background: #25D366;
-            color: white;
-            border-radius: 12px;
-            font-size: 22px;
+            color: #fff;
             text-decoration: none;
+            border-radius: 10px;
+            font-size: 22px;
             transition: 0.3s;
         }
-        .whatsapp-btn:hover {background: #18a54a;}
-
-        .foods-container {
-            margin: 50px auto;
-            max-width: 1100px;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 30px;
+        .whatsapp-btn:hover {
+            background: #1eb259;
         }
-        .food {
-            height: 200px;
-            background-size: cover;
-            background-position: center;
-            border-radius: 20px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.4);
-            transition: 0.4s;
-        }
-        .food:hover {transform: scale(1.12);}
 
         button {
             padding: 10px 25px;
             margin-top: 20px;
-            background: #7a3a11;
+            background: #6b2b0c;
             color: #fff;
             border: none;
-            border-radius: 12px;
-            cursor: pointer;
+            border-radius: 10px;
             font-size: 22px;
-        }
-        button:hover {background: #9b4c16;}
-
-        /* موسيقى */
-        .music-btn {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: #ff70b9;
-            padding: 15px 25px;
-            border-radius: 50px;
-            color: white;
-            font-size: 20px;
-            border: none;
             cursor: pointer;
-            box-shadow: 0 5px 18px rgba(0,0,0,0.5);
         }
-        .music-btn:hover {background: #ff519e;}
+        button:hover { background: #8a4515; }
 
-    </style>
+        .foods-container {
+            margin-top: 40px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 25px;
+            animation: fadeUp 3s forwards;
+        <style>
+.food {
+    width: 180px;
+    height: 180px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 18px;
+    box-shadow: 0px 6px 25px rgba(0,0,0,0.3);
+    transition: 0.3s;
+}
+.food:hover { transform: scale(1.1); }
+
+.food1 { background-image: url("https://i.imgur.com/2bNfX8J.jpeg"); }
+.food2 { background-image: url("https://i.imgur.com/uF1dvfO.jpeg"); }
+.food3 { background-image: url("https://i.imgur.com/5HeZ0cY.jpeg"); }
+.food4 { background-image: url("https://i.imgur.com/Y5z2U2t.jpeg"); }
+.food5 { background-image: url("https://i.imgur.com/7JYcVNy.jpeg"); }
+.food6 { background-image: url("https://i.imgur.com/ZiCENck.jpeg"); }
+.food7 { background-image: url("https://i.imgur.com/HVtOCVw.jpeg"); }
+.food8 { background-image: url("https://i.imgur.com/dlMBim2.jpeg"); }
+.food9 { background-image: url("https://i.imgur.com/8zBykYv.jpeg"); }
+
+.smoke {
+    position: fixed;
+    width: 200px;
+    height: 200px;
+    top: 85%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: url("https://i.imgur.com/8kJ8lR8.png") no-repeat center;
+    background-size: contain;
+    opacity: 0.6;
+    animation: smokeUp 5s infinite linear;
+    pointer-events: none;
+}
+
+@keyframes smokeUp {
+    0% { transform: translate(-50%,0) scale(1); opacity: 0.5; }
+    100% { transform: translate(-50%,-200px) scale(1.5); opacity: 0; }
+}
+</style>
+
 </head>
 <body>
 
-    <!-- فيديو خلفية احترافي -->
+    <!-- فيديو الخلفية -->
     <video autoplay muted loop playsinline id="bg-video">
-        <source src="https://raw.githubusercontent.com/kawtharelyagouti/kouki-site/main/media/bgvideo.mp4" type="video/mp4">
+        <source src="https://resource.flexclip.com/templates/video/720p/ecommerce-product-presentation.mp4?v=1.1.2.7.3">
     </video>
-    
-    <div class="overlay"></div>
 
+    <!-- نجوم -->
+    <div class="stars"></div>
+
+    <!-- دخان الكسكس -->
+    <div class="smoke"></div>
+
+    <!-- الطباخة -->
+    <div class="animal"></div>
+
+    <!-- العنوان -->
     <h1 id="title">كوثر اليكوتي</h1>
 
+    <!-- اسم زهرة الكبير -->
     <h2 class="big-name">زهرة الحريري</h2>
 
+    <!-- النص الوصفي -->
     <p class="description">
         كوثر اليكوتي، فنانة في عالم الطبخ المغربي.<br>
-        معروفة بإتقانها لتحضير الكسكس، الطواجين، الرفيسة، والبسطيلة بأعلى جودة وذوق أصيل.<br>
-        كل طبق من يديها هو حكاية من التراث المغربي، بنكهات قوية وحنّة ديال زمان.<br>
+        معروفة بإتقانها الرائع لتحضير الكسكس والأكلات التقليدية بكل تفاصيلها.<br>
+        كل وجبة من يديها هي رحلة في نكهات الزمن الجميل، من الطاجين الدسم إلى الرفيسة الدافئة، والبسطيلة الراقية.<br>
+        ماشي غير طباخة، بل حافظة لتراث مغربي زاخر.<br>
+        كتخدم بقلبها قبل يدها، وكتخلي كل من ذاق من أكلها يطلب المزيد.
     </p>
 
-    <div class="center">
-        <p class="phone">الرقم للتواصل: <span>0604054090</span></p><br>
-        <a class="whatsapp-btn" href="https://wa.me/212604054090" target="_blank">التواصل عبر واتساب</a>
-    </div>
+    <!-- رقم الهاتف -->
+    <p class="phone">
+        للاتصال من أجل الطبخ:
+        <span>0604054090</span>
+    </p>
 
-    <div class="center">
-        <button onclick="changeText()">بدل النص</button>
-    </div>
+    <!-- واتساب -->
+    <a class="whatsapp-btn" href="https://wa.me/212604054090" target="_blank">اتصل عبر واتساب</a>
+
+    <!-- تغيير النص -->
+    <button onclick="changeText()">بدل النص</button>
 
     <!-- صور الأكل -->
     <div class="foods-container">
-        <div class="food" style="background-image:url('https://tse4.mm.bing.net/th/id/OIP.iqnLXnw90rGlEeEs4tEVmgHaGW?pid=Api&P=0&h=180');"></div>
-        <div class="food" style="background-image:url('https://tse1.mm.bing.net/th/id/OIP.9rGrD0TmfpUBPev2HnGs2wHaHa?pid=Api&P=0&h=180');"></div>
-        <div class="food" style="background-image:url('https://tse2.mm.bing.net/th/id/OIP.4SMbyM4BJV06bflNYFCmsAHaE8?pid=Api&P=0&h=180');"></div>
-        <div class="food" style="background-image:url('https://tse2.mm.bing.net/th/id/OIP.8Ot4cPz0HVxtKa2MiLwLyAHaE6?pid=Api&P=0&h=180');"></div>
-        <div class="food" style="background-image:url('https://tse3.mm.bing.net/th/id/OIP.KOme0hpWoGyewleYEdacwAHaLH?pid=Api&P=0&h=180');"></div>
+        <div class="food food1"></div>
+        <div class="food food2"></div>
+        <div class="food food3"></div>
+        <div class="food food4"></div>
+        <div class="food food5"></div>
     </div>
 
-    <!-- زر الموسيقى -->
-    <button class="music-btn" onclick="document.getElementById('bg-music').play()">تشغيل الموسيقى 🎵</button>
-
+    <!-- موسيقى -->
+    <button onclick="document.getElementById('bg-music').play()">تشغيل الموسيقى</button>
     <audio id="bg-music" loop>
-        <source src="https://www2.cs.uic.edu/~i101/SoundFiles/StarWars3.wav" type="audio/mpeg">
+        <source src="c:\Users\pclik.ma\AppData\Local\Packages\5319275A.WhatsAppDesktop_cv1g1gvanyjgm\TempState\98BD65207EE83BFD17EBB0DB971EDDF9\corporate-inspiring-motivational-healthcare-410903.mp3" type="audio/mpeg">
     </audio>
 
     <script>
-        function changeText(){
+        function changeText() {
             document.getElementById("title").innerHTML = "✨ مرحباً بك في عالم الطبخ المغربي ✨";
         }
     </script>
